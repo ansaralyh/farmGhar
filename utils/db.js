@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 
 const connectToDb = ()=>{
-    mongoose.connect('mongodb://127.0.0.1:27017/farmGhar').then(()=>{
+    mongoose.connect('mongodb+srv://admin:123@cluster0.r18pd14.mongodb.net/farmGhar').then(()=>{
         console.log('MongoDB connected successfully')
     }).catch((err)=>{
         console.log(err)
