@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        minLength: [8, "password cannot be less than 8 characters"],
+        minLength: [8, "Password cannot be less than 8 characters"],
         required: [true, 'Please enter password']
     },
     role: {
@@ -20,12 +20,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please enter role'],
         enum: ['farmer', 'user'],
     },
-    products: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product', 
-        }
-    ]
+   
 });
 
 module.exports = mongoose.model('User', userSchema);

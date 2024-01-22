@@ -2,6 +2,7 @@ const jsonwebtoken = require('jsonwebtoken');
 
 
 exports.authenticateUser = (req, res, next) => {
+  
     try {
         const authHeader = req.headers.authorization;
         // console.log(authHeader)
@@ -11,7 +12,7 @@ exports.authenticateUser = (req, res, next) => {
         }
 
         const token = authHeader.split(' ')[1];
-        // console.log(token)
+        
         if (!token) {
             return res.status(401).json({ error: 'User not authenticated', message: 'Token not provided.' });
         }
@@ -19,7 +20,7 @@ exports.authenticateUser = (req, res, next) => {
         const decoded = jsonwebtoken.verify(token, '12345');
 
         req.user = decoded;
-        next();
+        next()
     } catch (error) {
         console.error('Authentication error:', error.message);
         return res.status(401).json({ error: 'User not authenticated', message: 'Invalid token.' });

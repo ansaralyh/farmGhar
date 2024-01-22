@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', 
-        // required: true
+        ref: 'User',
     },
+    
     name: {
         type: String,
         required: [true, 'Please enter the product name'],

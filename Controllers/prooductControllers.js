@@ -3,38 +3,33 @@ const userSchema = require('../Models/user.model');
 
 exports.createProduct = async (req, res) => {
     try {
-        const { name, description, price, place, category } = req.body;
+        const { createdBy, name, description, price, place, category } = req.body;
         const validCategories = ['cows', 'sheeps', 'goat', 'donkey', 'horse'];
 
         if (!validCategories.includes(category)) {
             return res.status(400).json({ error: 'Invalid category' });
         }
-
+        // console.log(req.user)
         const newProduct = new productSchema({
-            createdBy: req.user._id,
+            createdBy: req.user.userId,
             name,
             description,
             price,
             place,
             category,
         });
-        console.log(newProduct)
-
         const savedProduct = await newProduct.save();
 
-       
         const populatedProduct = await productSchema.findById(savedProduct._id).populate('createdBy').exec();
-
         res.status(201).json({
             success: true,
             message: 'Product is added successfully!',
             data: populatedProduct,
+
         });
     } catch (error) {
         console.error("Save Error:", error);
-        res.status(500).json({
-            message: "Error saving product",
-        });
+        res.status(500).json({ message: "Error saving product" });
     }
 };
 
@@ -50,17 +45,32 @@ exports.getAllProducts = async (req, res) => {
             })
         }
         return res.status(200).json({
-            success:true,
-            messege:"Products fetched successfully",
-            data:allProducts
+            success: true,
+            messege: "Products fetched successfully",
+            data: allProducts
         })
-    } 
-    catch (error){
+    }
+    catch (error) {
 
- console.error("Save Error:", error);
+        console.error("Save Error:", error);
         res.status(500).json({
             message: "Error fetching product",
 
         });
     }
 }
+
+exports.removeProducts = async (req, res) => {
+    try {
+    //   const userId = req.params.id;
+      const removedUser = await productSchema.deleteMany();
+      res.status(201).json({
+        message: 'products deleted',
+      })
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({
+        message: "Internal Server Error"
+      });
+    }
+  }
