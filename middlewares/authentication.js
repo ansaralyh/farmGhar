@@ -4,14 +4,14 @@ const jsonwebtoken = require('jsonwebtoken');
 exports.authenticateUser = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
-        console.log(authHeader)
+        // console.log(authHeader)
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return res.status(401).json({ error: 'User not authenticated', message: 'Invalid token format.' });
         }
 
         const token = authHeader.split(' ')[1];
-        console.log(token)
+        // console.log(token)
         if (!token) {
             return res.status(401).json({ error: 'User not authenticated', message: 'Token not provided.' });
         }
