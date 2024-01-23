@@ -83,7 +83,7 @@ exports.removeUser = async (req, res) => {
     }
   }
 
-
+//update user
   exports.updateUser = async (req, res) => {
     try {
       const userId = req.params.id;

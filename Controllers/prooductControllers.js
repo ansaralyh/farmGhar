@@ -1,5 +1,4 @@
 const productSchema = require('../Models/products.model');
-const userSchema = require('../Models/user.model');
 
 exports.createProduct = async (req, res) => {
     try {
@@ -9,7 +8,6 @@ exports.createProduct = async (req, res) => {
         if (!validCategories.includes(category)) {
             return res.status(400).json({ error: 'Invalid category' });
         }
-        // console.log(req.user)
         const newProduct = new productSchema({
             createdBy: req.user.userId,
             name,
@@ -37,7 +35,6 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
     try {
         const allProducts = await productSchema.find();
-        // console.log(allProducts)
         if (!allProducts) {
             return res.status(404).json({
                 success: false,
@@ -60,17 +57,88 @@ exports.getAllProducts = async (req, res) => {
     }
 }
 
+//get single product
+exports.getSinleProduct = async (req, res) => {
+    try {
+        const prodId = req.params.id;
+        const product = await productSchema.findById(prodId);
+        if (!product) {
+            return res.status(404).json({ message: `product with this ${prodId} not found` });
+        }
+        return res.status(200).json({
+            success: true,
+            data: product
+        })
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
+
+// Udate product details
+
+exports.updateProduct = async (req, res) => {
+    try {
+        const prodId = req.params.id;
+        const productDetails = req.body;
+        const updatedProduct = await productSchema.findByIdAndUpdate(prodId, productDetails);
+        if (!updatedProduct) {
+            return res.status(401).json({
+                message: "product not found"
+            })
+        }
+        return res.status(201).json({
+            success: true,
+            updatedProduct
+        })
+
+
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
+
+
+// Remove product by id
+
+exports.removeSingleProduct = async (req, res) => {
+    try {
+        const prodId = req.params.id;
+        const removedProd = await productSchema.findByIdAndRemove(prodId);
+        if (!removedProd) {
+            return res.status(401).json({
+                message: "product not found"
+            })
+        }
+        res.status(200).json({
+
+            message: "Deleted Successfully!",
+            removedProd
+        })
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
+
+// Remove all products
 exports.removeProducts = async (req, res) => {
     try {
-    //   const userId = req.params.id;
-      const removedUser = await productSchema.deleteMany();
-      res.status(201).json({
-        message: 'products deleted',
-      })
+        const removedUser = await productSchema.deleteMany();
+        res.status(201).json({
+            message: 'products deleted',
+        })
     } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({
-        message: "Internal Server Error"
-      });
+        console.error("Error fetching user:", error);
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
     }
-  }
+}
