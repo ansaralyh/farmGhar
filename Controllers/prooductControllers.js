@@ -8,6 +8,7 @@ exports.createProduct = async (req, res) => {
         if (!validCategories.includes(category)) {
             return res.status(400).json({ error: 'Invalid category' });
         }
+
         const newProduct = new productSchema({
             createdBy: req.user.userId,
             name,
@@ -15,22 +16,22 @@ exports.createProduct = async (req, res) => {
             price,
             place,
             category,
+            image: req.file ? req.file.path : null,
         });
-        const savedProduct = await newProduct.save();
 
+        const savedProduct = await newProduct.save();
         const populatedProduct = await productSchema.findById(savedProduct._id).populate('createdBy').exec();
+
         res.status(201).json({
             success: true,
             message: 'Product is added successfully!',
             data: populatedProduct,
-
         });
     } catch (error) {
-        console.error("Save Error:", error);
-        res.status(500).json({ message: "Error saving product" });
+        console.error('Save Error:', error);
+        res.status(500).json({ message: 'Error saving product' });
     }
 };
-
 
 exports.getAllProducts = async (req, res) => {
     try {

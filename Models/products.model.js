@@ -27,6 +27,9 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Please enter the product category'],
         enum: ['cows', 'sheeps', 'goat', 'donkey', 'horse'],
     },
+    image:{
+        type:String,
+    }
 });
 
 module.exports = mongoose.model('Product', productSchema);

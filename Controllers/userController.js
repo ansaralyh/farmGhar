@@ -1,7 +1,7 @@
 const userSchema = require('../Models/user.model');
 const bcrypt = require('bcrypt');
 const jsonwebtoken = require('jsonwebtoken')
-const SECRET = '12345';
+// const SECRET = '12345';
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
 const Otp = require('../Models/otp.model')
@@ -129,7 +129,7 @@ exports.login = async (req, res) => {
             userEmail: user.email,
             userId: user._id,
             userRole: user.role
-        }, SECRET, { expiresIn: '1h' });
+        }, process.env.SECRET, { expiresIn: '24h' });
         
         res.status(200).json({
             message: "User logged in successfully!",

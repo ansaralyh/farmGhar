@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
-
-
-const connectToDb = ()=>{
-    mongoose.connect('mongodb+srv://admin:123@cluster0.r18pd14.mongodb.net/farmGhar').then(()=>{
-        console.log('MongoDB connected successfully')
-    }).catch((err)=>{
-        console.log(err)
-    })
-}
+const connectToDb = () => {
+    mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => {
+            console.log('MongoDB connected successfully');
+        })
+        .catch((err) => {
+            console.error('MongoDB connection error:', err);
+        });
+};
 
 module.exports = connectToDb
