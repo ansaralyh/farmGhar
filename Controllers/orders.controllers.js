@@ -74,3 +74,51 @@ exports.getSingleOrderById = async (req, res) => {
     }
   };
   
+// Remove the order by id 
+
+exports.removeOrder = async (req, res) => {
+    try {
+        const order_id = req.params.id;
+  
+        const order = await Order.findByIdAndRemove(order_id);
+        if (!order) {
+            return res.status(404).json({ message: 'No order found with the provided ID' });
+          }
+        res.status(201).json({
+            success: true,
+            message: 'Order deleted successfully',
+            data: order,
+          });
+
+    } catch (error) {
+        console.error("Error fetching order:", error);
+        res.status(500).json({
+          message: "Internal Server Error"
+        });
+    }
+}
+
+// Update existing order
+
+exports.updateOrder = async (req, res) => {
+    try {
+        const order_id = req.params.id;
+
+        const updatedOrder = await Order.findByIdAndUpdate(order_id, req.body, { new: true });
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'No order found with the provided ID' });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Order updated successfully',
+            data: updatedOrder,
+        });
+    } catch (error) {
+        console.error("Error updating order:", error);
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};
