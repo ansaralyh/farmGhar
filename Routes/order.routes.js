@@ -12,13 +12,10 @@ router.get('/orders/view', authenticateUser, orderController.getAllOrders);
 // Get single orders
 router.get('/orders/view/:id', authenticateUser, orderController.getSingleOrderById);
 
-
 // remove order by id 
-router.delete('/orders/delete/:id', authenticateUser,orderController.removeOrder)
-
+router.delete('/orders/delete/:id', authenticateUser, orderController.removeOrder)
 
 //Update order by id
-
-router.put('/orders/update/:id',authenticateUser,orderController.updateOrder)
+router.put('/orders/update/:id', authenticateUser, orderController.updateOrder)
 
 module.exports = router;

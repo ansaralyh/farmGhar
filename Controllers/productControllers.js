@@ -5,6 +5,7 @@ exports.createProduct = async (req, res) => {
         const { createdBy, name, description, price, place, category,isSold } = req.body;
         const validCategories = ['cows', 'sheeps', 'goat', 'donkey', 'horse'];
 
+
         if (!validCategories.includes(category)) {
             return res.status(400).json({ error: 'Invalid category' });
         }
@@ -18,7 +19,7 @@ exports.createProduct = async (req, res) => {
             category,
             isSold,
             image: req.file ? req.file.buffer : undefined,
-        });
+        })
         // console.log("req",req)
         console.log('Request Body:', req.body);
         console.log("req.file :", req.file)
@@ -137,10 +138,16 @@ exports.removeSingleProduct = async (req, res) => {
 // Remove all products
 exports.removeProducts = async (req, res) => {
     try {
-        const removedUser = await productSchema.deleteMany();
+        const removedProducts = await productSchema.deleteMany();
+        if(!removedProducts){
+            return res.status(401).json({
+                message: "product not found"
+            })
+        }
         res.status(201).json({
             message: 'products deleted',
         })
+       
     } catch (error) {
         console.error("Error fetching user:", error);
         res.status(500).json({
@@ -148,3 +155,32 @@ exports.removeProducts = async (req, res) => {
         });
     }
 }
+
+// ****************Farmer's controllers ****************** //
+
+// Get products from Farmer
+
+exports.getAllProductsOfFarmer = async (req, res) => {
+    try {
+        const farmer_id = req.params.id;
+        const farmerProducts = await productSchema.find({ farmer_id });
+
+        console.log("Farmer_id :",farmer_id);
+
+        if (!farmerProducts || farmerProducts.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No products found for the specified farmer",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Farmer\'s products fetched successfully',
+            data: farmerProducts,
+        });
+    } catch (error) {
+        console.error('Error fetching farmer\'s products:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
