@@ -2,7 +2,7 @@ const productSchema = require('../Models/products.model');
 
 exports.createProduct = async (req, res) => {
     try {
-        const { createdBy, name, description, price, place, category } = req.body;
+        const { createdBy, name, description, price, place, category,isSold } = req.body;
         const validCategories = ['cows', 'sheeps', 'goat', 'donkey', 'horse'];
 
         if (!validCategories.includes(category)) {
@@ -16,8 +16,12 @@ exports.createProduct = async (req, res) => {
             price,
             place,
             category,
-            image: req.file ? req.file.path : null,
+            isSold,
+            image: req.file ? req.file.buffer : undefined,
         });
+        // console.log("req",req)
+        console.log('Request Body:', req.body);
+        console.log("req.file :", req.file)
 
         const savedProduct = await newProduct.save();
         const populatedProduct = await productSchema.findById(savedProduct._id).populate('createdBy').exec();
@@ -32,6 +36,7 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ message: 'Error saving product' });
     }
 };
+
 
 exports.getAllProducts = async (req, res) => {
     try {

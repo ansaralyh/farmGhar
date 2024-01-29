@@ -27,8 +27,12 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Please enter the product category'],
         enum: ['cows', 'sheeps', 'goat', 'donkey', 'horse'],
     },
+    isSold:{
+        type:Boolean,
+        default:false
+    },
     image:{
-        type:String,
+        type:Buffer,
     }
 });
 

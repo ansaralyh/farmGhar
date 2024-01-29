@@ -1,7 +1,6 @@
 const userSchema = require('../Models/user.model');
 const bcrypt = require('bcrypt');
-const jsonwebtoken = require('jsonwebtoken')
-// const SECRET = '12345';
+const jsonwebtoken = require('jsonwebtoken');
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
 const Otp = require('../Models/otp.model')
