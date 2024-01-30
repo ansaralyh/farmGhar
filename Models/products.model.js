@@ -8,23 +8,24 @@ const productSchema = new mongoose.Schema({
     
     name: {
         type: String,
-        required: [true, 'Please enter the product name'],
+        // required: [true, 'Please enter the product name'],
     },
     description: {
         type: String,
-        required: [true, 'Please enter the product description'],
+        // required: [true, 'Please enter the product description'],
     },
     price: {
         type: Number,
-        required: [true, 'Please enter the product price'],
+        // required: [true, 'Please enter the product price'],
     },
     place: {
         type: String,
-        required: [true, 'Please enter the product place'],
+        // required: [true, 'Please enter the product place'],
     },
     category: {
         type: String,
-        required: [true, 'Please enter the product category'],
+        default:'cows',
+        // required: [true, 'Please enter the product category'],
         enum: ['cows', 'sheeps', 'goat', 'donkey', 'horse'],
     },
     isSold:{

@@ -2,13 +2,16 @@ const productSchema = require('../Models/products.model');
 
 exports.createProduct = async (req, res) => {
     try {
+        console.log("create is called")
         const { createdBy, name, description, price, place, category,isSold } = req.body;
-        const validCategories = ['cows', 'sheeps', 'goat', 'donkey', 'horse'];
+        // const validCategories = ['cows', 'sheeps', 'goat', 'donkey', 'horse'];
 
 
-        if (!validCategories.includes(category)) {
-            return res.status(400).json({ error: 'Invalid category' });
-        }
+        // if (!category || !validCategories.includes(category.toLowerCase())) {
+        //     return res.status(400).json({ error: 'Invalid category' });
+        // }
+        
+        
 
         const newProduct = new productSchema({
             createdBy: req.user.userId,
