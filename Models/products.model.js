@@ -18,23 +18,27 @@ const productSchema = new mongoose.Schema({
         type: Number,
         // required: [true, 'Please enter the product price'],
     },
-    place: {
+    address: {
         type: String,
         // required: [true, 'Please enter the product place'],
     },
     category: {
         type: String,
-        default:'cows',
         // required: [true, 'Please enter the product category'],
-        enum: ['cows', 'sheeps', 'goat', 'donkey', 'horse'],
+        enum: ['cow', 'sheep', 'goat', 'donkey', 'horse'],
+    },
+    status:{
+        type:String,
+        default:"pending",
+        enum:["pending","approved","sold"]
     },
     isSold:{
         type:Boolean,
         default:false
     },
     image:{
-        type:Buffer,
+        type:String,
     }
-});
+},{timestamps:true});
 
 module.exports = mongoose.model('Product', productSchema);

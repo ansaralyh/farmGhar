@@ -15,14 +15,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.post('/product/createProduct', authenticateUser, upload.single('image'), productController.createProduct);
+router.post('/product/createProduct', authenticateUser, productController.createProduct);
 router.get('/product/view', productController.getAllProducts);
-router.get('/product/view/:id', authenticateUser, productController.getSinleProduct);
+router.get('/product/view/:id', productController.getSinleProduct);
 router.delete('/product', authenticateUser, productController.removeProducts);
 router.delete('/product/:id', authenticateUser, productController.removeSingleProduct);
 router.put("/product/update/:id", authenticateUser, productController.updateProduct);
 
 // ****************Farmer's routes ****************** //
-router.get('/product/by-farmer/:id', authenticateUser, productController.getAllProductsOfFarmer);
+router.get('/product/by-farmer', authenticateUser, productController.getAllProductsOfFarmer);
 
 module.exports = router;
